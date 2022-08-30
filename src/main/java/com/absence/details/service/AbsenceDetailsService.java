@@ -1,6 +1,6 @@
 package com.absence.details.service;
 
-import com.absence.details.entity.AbsenceDetails;
+import com.absence.details.entity.AbsenceDetailsEntity;
 import com.absence.details.repository.AbsenceDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,24 +14,24 @@ public class AbsenceDetailsService {
     @Autowired
     private AbsenceDetailsRepository absenceDetailsRepository;
 
-    public Optional<AbsenceDetails> getAbsenceDetails(Integer absenceDetailsId) {
+    public Optional<AbsenceDetailsEntity> getAbsenceDetails(Integer absenceDetailsId) {
         return absenceDetailsRepository.findById(absenceDetailsId);
     }
 
-    public List<AbsenceDetails> list() {
+    public List<AbsenceDetailsEntity> list() {
         return absenceDetailsRepository.findAll();
     }
 
-    public AbsenceDetails addAbsenceDetails(AbsenceDetails absenceDetails) {
-        return absenceDetailsRepository.saveAndFlush(absenceDetails);
+    public AbsenceDetailsEntity addAbsenceDetails(AbsenceDetailsEntity absenceDetailsEntity) {
+        return absenceDetailsRepository.saveAndFlush(absenceDetailsEntity);
     }
 
-    public AbsenceDetails updateAbsenceDetails(AbsenceDetails absenceDetails) {
-        return absenceDetailsRepository.saveAndFlush(absenceDetails);
+    public AbsenceDetailsEntity updateAbsenceDetails(AbsenceDetailsEntity absenceDetailsEntity) {
+        return absenceDetailsRepository.saveAndFlush(absenceDetailsEntity);
     }
 
-    public void deleteAbsenceDetails(AbsenceDetails absenceDetails) {
-        absenceDetailsRepository.delete(absenceDetails);
+    public void deleteAbsenceDetails(AbsenceDetailsEntity absenceDetailsEntity) {
+        absenceDetailsRepository.delete(absenceDetailsEntity);
     }
 
     public void deleteByAbsenceDetailsId(Integer absenceDetailsId) {

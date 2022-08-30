@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity(name="ABSENCES_DETAILS")
-public class AbsenceDetails {
+public class AbsenceDetailsEntity {
 
     @Id
     @Column(name="ABSENCES_DETAILS_ID")

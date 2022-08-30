@@ -1,12 +1,14 @@
 package com.absence.details.controller;
 
-import com.absence.details.entity.Absents;
+import com.absence.details.entity.AbsentsEntity;
+import com.absence.details.model.Absents;
 import com.absence.details.service.AbsentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,33 +20,38 @@ public class AbsenceController {
 
     @GetMapping("/{absenceId}")
     public ResponseEntity<Absents> getAbsents(@PathVariable("absenceId") Integer absenceId) {
-        return new ResponseEntity<>(absentsService.getAbsents(absenceId).get(), HttpStatus.OK);
+        Absents absents = new Absents(absentsService.getAbsents(absenceId).get());
+        return new ResponseEntity<>(absents, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<Absents>> getAllAbsents() {
-        return new ResponseEntity<>(absentsService.list(), HttpStatus.OK);
+        List<Absents> absentsList = new ArrayList<>();
+        absentsService.list().forEach(s -> absentsList.add(new Absents(s)));
+        return new ResponseEntity<>(absentsList, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Absents> addAbsents(@RequestBody Absents absents) {
-        return new ResponseEntity<>(absentsService.addAbsents(absents), HttpStatus.OK);
+    public ResponseEntity<Absents> addAbsents(@RequestBody AbsentsEntity absentsEntity) {
+        Absents absents = new Absents(absentsService.addAbsents(absentsEntity));
+        return new ResponseEntity<>(absents, HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<Absents> updateAbsents(@RequestBody Absents absents) {
-        return new ResponseEntity<>(absentsService.updateAbsents(absents), HttpStatus.OK);
+    public ResponseEntity<Absents> updateAbsents(@RequestBody AbsentsEntity absentsEntity) {
+        Absents absents = new Absents(absentsService.updateAbsents(absentsEntity));
+        return new ResponseEntity<>(absents, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{employeeId}")
-    public ResponseEntity deleteByAbsenceId(@PathVariable("employeeId") Integer employeeId) {
-        absentsService.deleteByAbsenceId(employeeId);
+    @DeleteMapping("/{absenceId}")
+    public ResponseEntity deleteByAbsenceId(@PathVariable("absenceId") Integer absenceId) {
+        absentsService.deleteByAbsenceId(absenceId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping()
-    public ResponseEntity deleteAbsents(@RequestBody Absents absents) {
-        absentsService.deleteAbsents(absents);
+    public ResponseEntity deleteAbsents(@RequestBody AbsentsEntity absentsEntity) {
+        absentsService.deleteAbsents(absentsEntity);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -1,39 +1,35 @@
-package com.absence.details.entity;
+package com.absence.details.model;
 
-import javax.persistence.*;
+import com.absence.details.entity.AbsentsEntity;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="ABSENTS")
 public class Absents {
 
-    @Id
-    @Column(name="ABSENT_ID")
     private Integer absentId;
 
-    @Column(name="EMPLOYEE_ID")
     private Integer employeeId;
 
-    @Column(name="TOTAL_LEAVES")
     private Integer totalLeaves;
 
-    @Column(name="FLEXI_LEAVES")
     private Integer flexiLeaves;
 
-    @Column(name="SICK_LEAVES")
     private Integer sickLeaves;
 
-    @Column(name="ANNUAL_LEAVES")
     private Integer annualLeaves;
 
-    @OneToMany(mappedBy = "absentId")
     private List<AbsenceDetails> absenceDetails;
 
-    public List<AbsenceDetails> getAbsenceDetails() {
-        return absenceDetails;
-    }
-
-    public void setAbsenceDetails(List<AbsenceDetails> absenceDetails) {
-        this.absenceDetails = absenceDetails;
+    public Absents(AbsentsEntity absentsEntity) {
+        this.absentId = absentsEntity.getAbsentId();
+        this.employeeId = absentsEntity.getEmployeeId();
+        this.totalLeaves = absentsEntity.getTotalLeaves();
+        this.flexiLeaves = absentsEntity.getFlexiLeaves();
+        this.sickLeaves = absentsEntity.getSickLeaves();
+        this.annualLeaves = absentsEntity.getAnnualLeaves();
+        this.absenceDetails = new ArrayList<>();
+        absentsEntity.getAbsenceDetails().forEach(s -> this.absenceDetails.add(new AbsenceDetails(s)));
     }
 
     public Integer getAbsentId() {
@@ -42,6 +38,14 @@ public class Absents {
 
     public void setAbsentId(Integer absentId) {
         this.absentId = absentId;
+    }
+
+    public List<AbsenceDetails> getAbsenceDetails() {
+        return absenceDetails;
+    }
+
+    public void setAbsenceDetails(List<AbsenceDetails> absenceDetails) {
+        this.absenceDetails = absenceDetails;
     }
 
     public Integer getEmployeeId() {
