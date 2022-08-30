@@ -1,42 +1,40 @@
 package com.absence.details.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name="ABSENTS")
 public class Absents {
 
     @Id
-    @GeneratedValue
     @Column(name="ABSENT_ID")
     private Integer absentId;
 
     @Column(name="EMPLOYEE_ID")
     private Integer employeeId;
 
-    @Column(name="ABSENCES_DETAILS_ID")
-    private Integer absencesDetailsId;
+    @Column(name="TOTAL_LEAVES")
+    private Integer totalLeaves;
 
-    @Column(name="ABSENT_TYPE")
-    private String absentType;
+    @Column(name="FLEXI_LEAVES")
+    private Integer flexiLeaves;
 
-    @Column(name="DAYS")
-    private Integer days;
+    @Column(name="SICK_LEAVES")
+    private Integer sickLeaves;
 
-    @Column(name="PROJECTCODE")
-    private Integer projectCode;
+    @Column(name="ANNUAL_LEAVES")
+    private Integer annualLeaves;
 
-    @Column(name="FROM_DATE")
-    private Date fromdate;
+    @OneToMany(mappedBy = "absentId")
+    private List<AbsenceDetails> absenceDetails;
 
-    @Column(name="TO_DATE")
-    private Date toDate;
+    public List<AbsenceDetails> getAbsenceDetails() {
+        return absenceDetails;
+    }
 
-    @Column(name="APPROVAL_STATUS")
-    private Boolean approvalStatus;
+    public void setAbsenceDetails(List<AbsenceDetails> absenceDetails) {
+        this.absenceDetails = absenceDetails;
+    }
 
     public Integer getAbsentId() {
         return absentId;
@@ -54,59 +52,35 @@ public class Absents {
         this.employeeId = employeeId;
     }
 
-    public Integer getAbsencesDetailsId() {
-        return absencesDetailsId;
+    public Integer getTotalLeaves() {
+        return totalLeaves;
     }
 
-    public void setAbsencesDetailsId(Integer absencesDetailsId) {
-        this.absencesDetailsId = absencesDetailsId;
+    public void setTotalLeaves(Integer totalLeaves) {
+        this.totalLeaves = totalLeaves;
     }
 
-    public String getAbsentType() {
-        return absentType;
+    public Integer getFlexiLeaves() {
+        return flexiLeaves;
     }
 
-    public void setAbsentType(String absentType) {
-        this.absentType = absentType;
+    public void setFlexiLeaves(Integer flexiLeaves) {
+        this.flexiLeaves = flexiLeaves;
     }
 
-    public Integer getDays() {
-        return days;
+    public Integer getSickLeaves() {
+        return sickLeaves;
     }
 
-    public void setDays(Integer days) {
-        this.days = days;
+    public void setSickLeaves(Integer sickLeaves) {
+        this.sickLeaves = sickLeaves;
     }
 
-    public Integer getProjectCode() {
-        return projectCode;
+    public Integer getAnnualLeaves() {
+        return annualLeaves;
     }
 
-    public void setProjectCode(Integer projectCode) {
-        this.projectCode = projectCode;
-    }
-
-    public Date getFromdate() {
-        return fromdate;
-    }
-
-    public void setFromdate(Date fromdate) {
-        this.fromdate = fromdate;
-    }
-
-    public Date getToDate() {
-        return toDate;
-    }
-
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
-    }
-
-    public Boolean getApprovalStatus() {
-        return approvalStatus;
-    }
-
-    public void setApprovalStatus(Boolean approvalStatus) {
-        this.approvalStatus = approvalStatus;
+    public void setAnnualLeaves(Integer annualLeaves) {
+        this.annualLeaves = annualLeaves;
     }
 }

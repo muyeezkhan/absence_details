@@ -1,41 +1,50 @@
 package com.absence.details.controller;
 
-import com.absence.details.entity.AbsenceDetails;
-import com.absence.details.service.AbsenceDetailsService;
-import com.absence.details.util.JWTAuthentication;
+import com.absence.details.entity.Absents;
+import com.absence.details.service.AbsentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/absence")
+@RequestMapping("/rest/absents")
 public class AbsenceController {
 
     @Autowired
-    private JWTAuthentication jwtAuthentication;
+    private AbsentsService absentsService;
 
-    @Autowired
-    private AbsenceDetailsService absenceDetailsService;
-
-    @GetMapping("/{employeeId}")
-    public AbsenceDetails getEmployeeDetails(@PathVariable("employeeId") Integer employeeId) {
-        AbsenceDetails absenceDetails = new AbsenceDetails();
-        return absenceDetails;
+    @GetMapping("/{absenceId}")
+    public ResponseEntity<Absents> getAbsents(@PathVariable("absenceId") Integer absenceId) {
+        return new ResponseEntity<>(absentsService.getAbsents(absenceId).get(), HttpStatus.OK);
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<AbsenceDetails>> getAllEmployees() {
-        return new ResponseEntity<List<AbsenceDetails>>(absenceDetailsService.list(), HttpStatus.OK);
+    @GetMapping()
+    public ResponseEntity<List<Absents>> getAllAbsents() {
+        return new ResponseEntity<>(absentsService.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/token")
-    public ResponseEntity<String> getToken() {
-        return new ResponseEntity<>(jwtAuthentication.getToken(), HttpStatus.OK);
+    @PostMapping()
+    public ResponseEntity<Absents> addAbsents(@RequestBody Absents absents) {
+        return new ResponseEntity<>(absentsService.addAbsents(absents), HttpStatus.OK);
+    }
+
+    @PutMapping()
+    public ResponseEntity<Absents> updateAbsents(@RequestBody Absents absents) {
+        return new ResponseEntity<>(absentsService.updateAbsents(absents), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{employeeId}")
+    public ResponseEntity deleteByAbsenceId(@PathVariable("employeeId") Integer employeeId) {
+        absentsService.deleteByAbsenceId(employeeId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity deleteAbsents(@RequestBody Absents absents) {
+        absentsService.deleteAbsents(absents);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
